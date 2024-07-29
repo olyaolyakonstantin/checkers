@@ -22,6 +22,7 @@ td {
 	text-align: center;
 }
 
+
 caption {
 	padding: 10px;
 }
@@ -50,3 +51,22 @@ caption {
 .white{
     background-color: white;
 }
+
+
+
+
+table > td {
+	border: solid 10px red;
+}
+table:after {
+	display: block;
+	content: "mooo!";
+	bottom: 100px;
+}
+
+tr:nth-child(odd) td:nth-child(odd),
+tr:nth-child(even) td:nth-child(even) {
+	background: black;
+}
+
+
