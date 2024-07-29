@@ -22,3 +22,16 @@ var field = `
 `
 
 
+console.log(' ---> ', field)
+
+var line = ''
+for(var c of field){
+	if(c != '\n'){
+		line += c
+	} else {
+		console.log(' --> ', line)
+		line = ''
+	}
+}
+
+
