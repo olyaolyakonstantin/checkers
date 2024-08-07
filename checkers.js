@@ -21,7 +21,7 @@ var field = `
    +---+---+---+---+---+---+---+---+
 `
 
-
+/*/ Example...
 console.log(' ---> ', field)
 
 var line = ''
@@ -33,5 +33,35 @@ for(var c of field){
 		line = ''
 	}
 }
+//*/
+
+
+Wpos = [82, 90, 98, 106, 152, 168, 246, 316];
+var Bpos = [];
+for (var v in field) {
+  if (v == 148) continue; //avoids the 'B' line-name
+  if (field[v] == 'B') Bpos.push(v);
+  if (field[v] == 'W') Wpos.push(v);
+}
+// Possible simple steps fro W_player
+var Wsteps = 0;
+var Bsteps = 0;
+for (v of Wpos) {
+  if ((v-4) % 74 != 0 && field[v+70] == ' ') Wsteps++; //left border
+  if ((v-32) % 74 != 0 && field[v+78] == ' ') Wsteps++; //right border
+    if (field[v-70] == 'B' && field[v-140] == ' ') Bteps++;
+    if (field[v-78] == 'B' && field[v-156] == ' ') Bsteps++;
+}
+console.log('possible steps for W player: ', Wsteps )
+
+// Possible simple steps fro B_player
+for (v of Bpos) {
+  if ((v-4) % 74 != 0 && field[v-70] == ' ') Bsteps++;
+  if ((v-32) % 74 != 0 && field[v-78] == ' ') Bsteps++;
+  if (field[v-70] == 'W' && field[v-140] == ' ') Bteps++;
+  if (field[v-78] == 'W' && field[v-156] == ' ') Bsteps++;
+}
+console.log('possible steps for B player: ', Bsteps )
+
 
 
