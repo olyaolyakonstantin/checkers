@@ -1,4 +1,7 @@
-// Smicolons:
+
+// Smicolons
+// ---------
+//
 
 // for counter loop...
 for(var i=0; i < 5; i++){
@@ -22,4 +25,25 @@ console.log(123)
 
 
 
+// FUnctions
+// ---------
+//
 
+function add(a, b){
+	return a + b
+}
+
+var add = function(a, b){
+	return a + b
+}
+
+// Arrwo function
+// XXX we will NEVER use these!
+// 		...because "the same but slightly different"
+var add = (a, b) => a + b
+
+
+
+
+
+// vim:set ts=4 sw=4 :
