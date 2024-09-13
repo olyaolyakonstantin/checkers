@@ -1,0 +1,27 @@
+
+
+git init
+
+
+git clone git@github.com:olyaolyakonstantin/checkers.git 
+
+
+git add path/to/file
+
+
+git commit -asm "comment"
+
+
+git push
+
+
+git pull
+
+
+git status
+
+
+git diff
+
+
+
