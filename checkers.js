@@ -37,7 +37,23 @@ for(var c of field){
 
 
 
-function possibleMoves(field){
+//
+//	possibleMoves(<field>, <player>)
+//		-> <moves>
+//
+// Formats
+//	<field>
+//
+//	// BNF
+//	<player> ::= 
+//		// NOTE: <field-player-A>, <field-player-B> depend on 
+//		//	how the field is defined.
+//		<field-player-A> 
+//		| <field-player-B>
+//
+//	<moves>
+//
+function possibleMoves(field, player){
 	var wpos = [
 		82, 
 		90, 
@@ -118,4 +134,4 @@ possibleMoves(field)
 
 
 
-
+// vim:set ts=4 sw=4 :
