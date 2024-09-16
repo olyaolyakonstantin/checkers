@@ -19,6 +19,7 @@ var field = `
    +---+---+---+---+---+---+---+---+
 `
 
+// XXX this should return the value and lreave the printing to external code...
 function posiibleMoves2(field, player){ 
 	var checkerPositions = []
 	var moves = 0
@@ -51,7 +52,7 @@ function posiibleMoves2(field, player){
 			checkerPositions.push(v)
 		}
 	}
-	console.log(checkerPositions)
+	//console.log(checkerPositions)
 	
 	
 	//possible simple steps 
@@ -78,10 +79,14 @@ function posiibleMoves2(field, player){
 		}
 		
 	}
-	console.log(moves)
+	//console.log(moves)
+	return moves
 }  
+
 var player = 'B'
-posiibleMoves2(field, player)
+console.log(`Moves for player ${ player }: ${
+	posiibleMoves2(field, player)
+}`)
 
 
 //checks
