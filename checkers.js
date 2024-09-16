@@ -1,3 +1,28 @@
+//
+// This field format is simple to print and understand on screen but is 
+// very complicated to work with in code, the usual ways to work with 
+// such structues are:
+// 	- parse it into a more convinient form (XXX task 1) 
+// 		Example form:
+// 			field_array = [
+// 				   , 'W',    , 'W',    , 'W',    , 'W',
+// 				'W',    ,    ,    , 'W',    ,    ,    ,
+// 				...
+// 			]
+// 		NOTE: this will also require us to generate the original from 
+// 			the above (XXX task 2)
+// 	- add a translation layer to/from the original form (XXX task 3)
+// 		as an example this could be a list of cell indexes in field string
+//
+//
+// Tasks:
+// 	1) parse field to field_array
+// 		parseField(<field>)
+// 			-> <field-array>
+// 	2) generate field from field_array
+// 	3) parse field to a list of cell indexes
+//
+//
 var field = `
      1   2   3   4   5   6   7   8
    +---+---+---+---+---+---+---+---+
@@ -35,35 +60,34 @@ function posiibleMoves2(field, player){
 		rightStep *= -1
 	}
 
-	// change v to position
-	for(var v in field) { 
-		
-		// modifies 'stroke' values in Array to number
-		v *= 1
-		
+	// build checkerPositions...
+	//
+	// format:
+	// 	[ <player-piece-index>, ... ]
+	//
+	for(var i in field) { 
+		// NOTE: we need to convert index to number -- for iterates attr 
+		// 		names and not indexes...
+		i *= 1
 		// avoids the B-line name
 		// XXX try to avoid all this vertic line
-		if(v == 148){ 
+		if(i == 148){ 
 			continue
 		}
-		
-		//finds the positions of all player's checkers
-		if (field[v] == player){
-			checkerPositions.push(v)
+		if (field[i] == player){
+			checkerPositions.push(i)
 		}
 	}
-	//console.log(checkerPositions)
-	
 	
 	//possible simple steps 
-	for(v of checkerPositions){
-		//left border
+	for(var v of checkerPositions){
+		// left border
 		if((v-4) % 74 != 0 
 				&& field[v+leftStep] == ' '){
 			moves++
 		} 
 		
-		//right border
+		// right border
 		if((v-32) % 74 != 0 
 				&& field[v+rightStep] == ' '){
 			moves++ 
@@ -77,16 +101,14 @@ function posiibleMoves2(field, player){
 				&& field[v+rightStep*2] == ' '){
 			moves++
 		}
-		
 	}
-	//console.log(moves)
+
 	return moves
 }  
 
 var player = 'B'
 console.log(`Moves for player ${ player }: ${
-	posiibleMoves2(field, player)
-}`)
+	posiibleMoves2(field, player) }`)
 
 
 //checks
