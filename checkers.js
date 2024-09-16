@@ -19,33 +19,37 @@ var field = `
    +---+---+---+---+---+---+---+---+
 `
 
-function posiibleMoves2(field, player){ //can I give a 'W' character instead of "player" value?
+function posiibleMoves2(field, player){ 
 	var checkerPositions = []
 	var moves = 0
 	var leftStep = 70
 	var rightStep = 78
 	var oppositePlayer = ''
+
 	if(player == 'W'){
 		oppositePlayer = 'B'
-	}else{
+	} else {
 		oppositePlayer = 'W'
 		leftStep *= -1
 		rightStep *= -1
 	}
-	for (var v in field) { //change v to position
+
+	// change v to position
+	for(var v in field) { 
 		
-			//modifies 'stroke' values in Array to number
-			v *= 1
-			
-			//avoids the B-line name
-			if (v == 148){ // try to avoid all this vertic line
-				continue
-			}
-			
-			//finds the positions of all player's checkers
-			if (field[v] == player){
-				checkerPositions.push(v)
-			}
+		// modifies 'stroke' values in Array to number
+		v *= 1
+		
+		// avoids the B-line name
+		// XXX try to avoid all this vertic line
+		if(v == 148){ 
+			continue
+		}
+		
+		//finds the positions of all player's checkers
+		if (field[v] == player){
+			checkerPositions.push(v)
+		}
 	}
 	console.log(checkerPositions)
 	
@@ -78,6 +82,7 @@ function posiibleMoves2(field, player){ //can I give a 'W' character instead of 
 }  
 var player = 'B'
 posiibleMoves2(field, player)
+
 
 //checks
 //console.log((90-4) % 74!= 0)
