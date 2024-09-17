@@ -219,3 +219,6 @@ function posiibleMoves(field){
 		console.log('possible steps for B player: ', bsteps)
 } 
 */
+
+
+// vim:set ts=4 sw=4 :
