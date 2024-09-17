@@ -23,8 +23,12 @@
 // 	3) parse field to a list of cell indexes
 //
 //
+
+
+// Recursive descent parser example...
+//
 var field = `
-            1   2   3   4   5   6   7   8
+            1       2    3            4   5      6   7  8
           +-------+----+----------+----+-------+--+----+---+
           |       |  W |          |    |       |  |    |  W|
         A |       |    |          | W  |       |W |    |   |
@@ -45,64 +49,51 @@ var field = `
           +-------+----+----------+----+-------+--+----+---+
        `
 
-// XXX BUG: adding cell at '-1'
-// XXX BUG: returns 56 cells
 function readCell(field, i, res, j){
-	var content = ' '
+	var content = res[j] ?? ' '
 	for(; i < field.length; i++){
-		// exit conditions...
-		if(field[i] == '\n'){
-			return i - 1
-		}
+		// end of line or horizontal border -> exit...
+		if(field[i] == '\n' 
+				|| field[i] == '+'){
+			return i - 1 }
+		// cell end -> exit...
 		if(field[i] == '|'){
-			if(!(j in res)
-					|| res[j] == ' '){
-				res[j] = content
-			}
-			return i - 1
-		}
-
+			res[j] = content 
+			return i - 1 }
 		// read cell content...
 		if(field[i] != ' '){
-			content = field[i]
-		}
-	}
-	return i
-}
-function readLine(field, i, res){
-	var count = 0
-	var len = 0
+			content = field[i] } }
+	return i }
+
+function readRow(field, i, res){
+	var row = []
+	var j = 0
 	for(; i < field.length; i++){
+		// possible multiline row -> read next line into row...
 		if(field[i] == '\n'){
-			len = count
-			count = 0
-			continue
-		}
+			j = 0
+			continue }
+		// horizontal border -> row is done...
 		if(field[i] == '+'){
-			return i
-		}
+			break }
+		// cell...
 		if(field[i] == '|'){
-			var j = res.length
-			if(len > 0){
-				j = j - len + count }
-			i = readCell(field, i+1, res, j)
-			count++
-		}
-	}
-	return i
-}
+			i = readCell(field, i+1, row, j) 
+			j++ } }
+	// add row to result...
+	res.splice(res.length, 0, ...row)
+	return i }
+
 function readField(field, res=[]){
 	for(var i=0; i < field.length; i++){
+		// row...
 		if(field[i] == '|'){
-			//i = readCell(field, i+1, res)
-			i = readLine(field, i+1, res)
-		}
-	}
-	return res
-}
+			i = readRow(field, i, res) } }
+	return res }
 
-//console.log(readField(field))
-
+//var p = readField(field)
+//console.log('===', p.length, p)
+//process.exit()
 
 
 
