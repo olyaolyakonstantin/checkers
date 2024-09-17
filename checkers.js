@@ -45,7 +45,9 @@ var field = `
           +-------+----+----------+----+-------+--+----+---+
         G |       |  B |          |    |       |B |    |  B|
           +-------+----+----------+----+-------+--+----+---+
-        H |    B  |    | B        |    | B     |  |    |   |
+        H |    B  |    |          |    |       |  |    |   |
+        E |       |    |        B |    |       |  |    |   |
+        E |       |    |          |    | B     |  |    |   |
           +-------+----+----------+----+-------+--+----+---+
        `
 
@@ -91,9 +93,11 @@ function readField(field, res=[]){
 			i = readRow(field, i, res) } }
 	return res }
 
-//var p = readField(field)
-//console.log('===', p.length, p)
-//process.exit()
+/* 
+var p = readField(field)
+console.log('===', p.length, p)
+process.exit()
+//*/
 
 
 
