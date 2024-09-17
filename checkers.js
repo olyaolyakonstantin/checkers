@@ -44,7 +44,40 @@ var field = `
    +---+---+---+---+---+---+---+---+
 `
 
-// XXX this should return the value and lreave the printing to external code...
+function fieldToArray(field){
+	var field_array = []
+	for(var i in field){
+		if(field[i] == '|'){
+			i++	
+			if(field[i] == '\n') continue
+			i++
+			field_array.push(field[i])
+		}
+	}
+
+	return field_array
+}
+ 
+function drawField(field_array){
+	var tpl = `   +---+---+---+---+---+---+---+---+`
+	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+]
+	console.log('\n     1   2   3   4   5   6   7   8\n',)
+	console.log() 
+	for (var i in field_array){
+		if(i%7 == 0){
+			console.log(' | ', field_array[i], ' |', tpl, letter.shift())
+		}
+		console.log(' | ', field_array[i])
+	}	
+}
+drawField(fieldToArray(field))
+//console.log(fieldToArray(field))
+
+
+
+
+// XXX this should return the value and lreave the printing to external code...y
 function posiibleMoves2(field, player){ 
 	var checkerPositions = []
 	var moves = 0
@@ -106,16 +139,12 @@ function posiibleMoves2(field, player){
 	return moves
 }  
 
-var player = 'B'
-console.log(`Moves for player ${ player }: ${
-	posiibleMoves2(field, player) }`)
+//var player = 'B'
+//console.log(`Moves for player ${ player }: ${
+//	posiibleMoves2(field, player) }`)
 
 
 //checks
-//console.log((90-4) % 74!= 0)
-//console.log(field[90+70] == ' ')
-//console.log((82-32) % 74!= 0)
-//console.log(field[316+78] == 'B')
 //console.log(field[316+156] == ' ')
 
 /*
