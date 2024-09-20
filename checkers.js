@@ -122,38 +122,53 @@ var field = `
         H | B |   | B |   | B |   |   |   |
           +---+---+---+---+---+---+---+---+
        `
-
-function fieldToArray(field){
-	var field_array = []
-	for(var i in field){
+function readCell2(i, field, res){
+	var contain = ' '
+	for(; i < field.length; i++){
+		if(field[i] == '\n'
+				|| field[i] == '+'){	
+			return i+1
+		}
 		if(field[i] == '|'){
-			i++	
-			if(field[i] == '\n'){
-				continue
-			}
-			i++
-			field_array.push(field[i])
+			res.push(contain)
+			return i-1
+		}
+
+		if (field[i] != ' '){
+			contain = field[i]
 		}
 	}
+	return i
+}
 
-	return field_array
-}
- 
-function drawField(field_array){
-	var tpl = `   +---+---+---+---+---+---+---+---+`
-	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-]
-	console.log('\n     1   2   3   4   5   6   7   8\n',)
-	console.log() 
-	for (var i in field_array){
-		if(i%7 == 0){
-			console.log(' | ', field_array[i], ' |', tpl, letter.shift())
+function readField2(field, res=[]){
+	for(var i=0; i < field.length; i++){
+		if(field[i] == '|'){
+			i = readCell2(i+1, field, res)
 		}
-		console.log(' | ', field_array[i])
-	}	
+	}
+	return res 
 }
-drawField(fieldToArray(field))
-//console.log(fieldToArray(field))
+
+var fieldArray = readField2(field)
+
+function drawField(fieldArray){
+	process.stdout.write('    1   2   3   4   5   6   7   8')
+	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',]
+
+	var size = Math.sqrt(fieldArray.length)
+	for(var i=0; i < fieldArray.length; i++){
+		if(i % size == 0){
+			process.stdout.write(' \n  +---+---+---+---+---+---+---+---+'  + '\n'
+									+ letter[i/size] + ' | ')
+		}
+		process.stdout.write(fieldArray[i] + ' | ')
+	}
+	process.stdout.write('\n  +---+---+---+---+---+---+---+---+\n')
+}
+
+drawField(fieldArray)
+
 
 
 
