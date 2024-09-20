@@ -10,19 +10,23 @@ for(var i=0; i < 5; i++){
 
 
 
-// If a line starts with an array literal or priority braces, put a 
-// semicolon before it
+// If a line starts with an array literal, priority braces or backquote, 
+// put a semicolon before it
 var i = 5
 
+// array...
 ;[1,2,3]
 	.map(function(e){ 
 		return e * 2 })
 
-//
+// priority braces...
 console.log(123)
 
 ;(1 + 2) * 4
 
+
+// backquote...
+;` this is a template string `
 
 
 // Null values

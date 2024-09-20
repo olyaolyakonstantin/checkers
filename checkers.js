@@ -122,25 +122,52 @@ var field = `
         H | B |   | B |   | B |   |   |   |
           +---+---+---+---+---+---+---+---+
        `
+
+// Losing vs. retaining information about the input...
+//
+// this parse result lost information about field topology...
+a = [
+	'a', 'b', 'c',
+	'x', 'y', 'z',
+]
+//
+// we can now infer topology data from structure...
+b = [
+	['a', 'b', 'c'],
+	['x', 'y', 'z'],
+]
+//
+// we explicitly include topology data...
+c = {
+	width: 3,
+	cells: [
+		'a', 'b', 'c',
+		'x', 'y', 'z',
+	],
+}
+
+
 function readCell2(i, field, res){
+	// NOTE: better names: content, contained
 	var contain = ' '
 	for(; i < field.length; i++){
 		if(field[i] == '\n'
 				|| field[i] == '+'){	
 			return i+1
 		}
+		// NOTE: this is done prior to content handling to avoid 
+		// 		overwriting of content...
 		if(field[i] == '|'){
 			res.push(contain)
 			return i-1
 		}
-
-		if (field[i] != ' '){
+		// cell content...
+		if(field[i] != ' '){
 			contain = field[i]
 		}
 	}
 	return i
 }
-
 function readField2(field, res=[]){
 	for(var i=0; i < field.length; i++){
 		if(field[i] == '|'){
@@ -150,11 +177,12 @@ function readField2(field, res=[]){
 	return res 
 }
 
-var fieldArray = readField2(field)
 
+// XXX write this in a more dynamic fashion...
 function drawField(fieldArray){
+	// XXX process does not exist in browsers, do not use in portable code...
 	process.stdout.write('    1   2   3   4   5   6   7   8')
-	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',]
+	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
 	var size = Math.sqrt(fieldArray.length)
 	for(var i=0; i < fieldArray.length; i++){
@@ -167,8 +195,18 @@ function drawField(fieldArray){
 	process.stdout.write('\n  +---+---+---+---+---+---+---+---+\n')
 }
 
+
+var fieldArray = readField2(field)
 drawField(fieldArray)
 
+
+// XXX using the above structure:
+// 		- get a list of possible moves (incl. attacks)
+// 		- get a list of attacks
+// 		- attacks can be chained
+// 		- sort moves/attacks by value (single turn value)
+// 		- bonus: think/do the above for 2 or N steps (one player)...
+//
 
 
 
