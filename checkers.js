@@ -147,18 +147,19 @@ c = {
 }
 
 
-function readCell2(i, field, res){
-	// NOTE: better names: content, contained
-	var contain = ' '
+function readCell2(field, i, res){
+	var content = ' '
 	for(; i < field.length; i++){
+		
 		if(field[i] == '\n'
-				|| field[i] == '+'){	
-			return i+1
+				|| field[i] == '+'){
+			res.width++
+			return i
 		}
 		// NOTE: this is done prior to content handling to avoid 
 		// 		overwriting of content...
 		if(field[i] == '|'){
-			res.push(contain)
+			res.cells.push(content)
 			return i-1
 		}
 		// cell content...
@@ -168,7 +169,8 @@ function readCell2(i, field, res){
 	}
 	return i
 }
-function readField2(field, res=[]){
+function readField2(field, res={}){
+	res = { width: 0, cells: [] }
 	for(var i=0; i < field.length; i++){
 		if(field[i] == '|'){
 			i = readCell2(i+1, field, res)
@@ -176,28 +178,24 @@ function readField2(field, res=[]){
 	}
 	return res 
 }
-
+console.log(readField2(field))
 
 // XXX write this in a more dynamic fashion...
 function drawField(fieldArray){
-	// XXX process does not exist in browsers, do not use in portable code...
-	process.stdout.write('    1   2   3   4   5   6   7   8')
-	var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-
 	var size = Math.sqrt(fieldArray.length)
+	console.log(`+${ (new Array(size))
+				.fill('---')
+				.join('+') }+`)	
+
 	for(var i=0; i < fieldArray.length; i++){
 		if(i % size == 0){
-			process.stdout.write(' \n  +---+---+---+---+---+---+---+---+'  + '\n'
-									+ letter[i/size] + ' | ')
 		}
-		process.stdout.write(fieldArray[i] + ' | ')
 	}
-	process.stdout.write('\n  +---+---+---+---+---+---+---+---+\n')
 }
 
 
 var fieldArray = readField2(field)
-drawField(fieldArray)
+//drawField(fieldArray)
 
 
 // XXX using the above structure:
