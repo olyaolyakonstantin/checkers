@@ -154,7 +154,7 @@ function readCell2(field, i, res){
 		if(field[i] == '\n'
 				|| field[i] == '+'){
 			res.width++
-			return i
+			return i-1
 		}
 		// NOTE: this is done prior to content handling to avoid 
 		// 		overwriting of content...
@@ -164,7 +164,7 @@ function readCell2(field, i, res){
 		}
 		// cell content...
 		if(field[i] != ' '){
-			contain = field[i]
+			content = field[i]
 		}
 	}
 	return i
@@ -173,29 +173,45 @@ function readField2(field, res={}){
 	res = { width: 0, cells: [] }
 	for(var i=0; i < field.length; i++){
 		if(field[i] == '|'){
-			i = readCell2(i+1, field, res)
+			i = readCell2(field, i+1, res)
 		}
 	}
 	return res 
 }
-console.log(readField2(field))
+
 
 // XXX write this in a more dynamic fashion...
+function fillRow(fieldArray, row, i, j){
+	for(; j < i*fieldArray.width; j++){
+		row.push(fieldArray.cells[j])
+	}
+	return row
+}
 function drawField(fieldArray){
-	var size = Math.sqrt(fieldArray.length)
-	console.log(`+${ (new Array(size))
-				.fill('---')
-				.join('+') }+`)	
+	var numbers = Array.from({length: fieldArray.width},
+								 (_, i) => i + 1)
+	console.log(`     ${numbers.join('   ')} `)
 
-	for(var i=0; i < fieldArray.length; i++){
-		if(i % size == 0){
-		}
+	var line = `   +${ (new Array(fieldArray.width))
+				.fill('---')
+				.join('+') }+`
+	console.log(line)
+
+	var j = 0
+	var row = []
+	var l = 65
+	for(var i=1; i <= fieldArray.width; i++){
+		fillRow(fieldArray, row, i, j)	
+		console.log(` ${String.fromCharCode(l++)} | ${row.join(' | ')} |`)		
+		j += fieldArray.width
+		row = []
+
+		console.log(line)
 	}
 }
 
-
 var fieldArray = readField2(field)
-//drawField(fieldArray)
+drawField(fieldArray)
 
 
 // XXX using the above structure:
