@@ -187,31 +187,58 @@ function fillRow(fieldArray, row, i, j){
 	}
 	return row
 }
-function drawField(fieldArray){
-	var numbers = Array.from({length: fieldArray.width},
-								 (_, i) => i + 1)
-	console.log(`     ${numbers.join('   ')} `)
+function getRow(fieldArray, r){
+    var row = []
+    var w = fieldArray.width
+    var a = r * w
+	for(var i=a; i < a + w; i++){
+		row.push(fieldArray.cells[i])
+	}
+	return row
+}
 
-	var line = `   +${ (new Array(fieldArray.width))
-				.fill('---')
-				.join('+') }+`
+
+
+// XXX return a string... 
+function field2str(fieldArray){
+	var field = []
+
+	var numbers = Array.from(
+		{ length: fieldArray.width },
+		function(_, i){
+			return i + 1 
+		})
+	field.push(`     ${ numbers.join('   ') } `)
+
+	var line = `   +${ 
+		(new Array(fieldArray.width))
+			.fill('---')
+			.join('+') 
+	}+`
 	console.log(line)
 
 	var j = 0
-	var row = []
 	var l = 65
-	for(var i=1; i <= fieldArray.width; i++){
-		fillRow(fieldArray, row, i, j)	
-		console.log(` ${String.fromCharCode(l++)} | ${row.join(' | ')} |`)		
+	var w = fieldArray.width
+	for(var i=0; i < fieldArray.width; i++){
+		//var row = getRow(fieldArray, i)
+		var row = 
+			fieldArray.cells
+				.slice(i*w, i*w + w)
+		console.log(` ${ String.fromCharCode(l++) } | ${ row.join(' | ') } |`)		
 		j += fieldArray.width
 		row = []
 
 		console.log(line)
 	}
+
+	return field
+		.join('\n')
 }
 
 var fieldArray = readField2(field)
-drawField(fieldArray)
+//drawField(fieldArray)
+console.log(field2str(fieldArray))
 
 
 // XXX using the above structure:
