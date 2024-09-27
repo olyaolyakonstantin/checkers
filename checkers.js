@@ -222,16 +222,26 @@ function possibleMoves(f){
 	var bsteps = 0
 	for(var i=0; i < f.cells.length; i++){
 		if(f.cells[i] == 'W'){
-			if(f.cells[(i-1)+f.width] == ' ' 
-					&& i%f.width != 0){
-				wsteps++ 
+			if(i%f.width != 0){
+				if(f.cells[i-1+f.width] == ' '){
+					wsteps++
+				}
+				if(f.cells[i-1+f.width] == 'B'
+						&& f.cells[i-2+f.width*2] == ' '){
+					wsteps++
+				}
 			}
-			if(f.cells[(i+1)+f.width] == ' '
-					&& (i+1)%f.width != 0){
-				wsteps++
+			if((i+1)%f.width != 0){
+				if(f.cells[i+1+f.width] == ' '){
+					wsteps++
+				}
+				if(f.cells[i+1+f.width] == 'B'
+						&& f.cells[i+2+f.width*2] == ' '){
+					wsteps++
+				}
 			}
-		}
-		 if(f.cells[i] == 'B'){
+		}	 
+		if(f.cells[i] == 'B'){
 			if(f.cells[(i-1)-f.width] == ' ' 
 					&& i%f.width != 0){
 				bsteps++ 
