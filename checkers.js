@@ -180,26 +180,6 @@ function readField2(field, res={}){
 }
 
 
-// XXX write this in a more dynamic fashion...
-function fillRow(fieldArray, row, i, j){
-	for(; j < i*fieldArray.width; j++){
-		row.push(fieldArray.cells[j])
-	}
-	return row
-}
-function getRow(fieldArray, r){
-    var row = []
-    var w = fieldArray.width
-    var a = r * w
-	for(var i=a; i < a + w; i++){
-		row.push(fieldArray.cells[i])
-	}
-	return row
-}
-
-
-
-// XXX return a string... 
 function field2str(fieldArray){
 	var field = []
 
@@ -215,21 +195,18 @@ function field2str(fieldArray){
 			.fill('---')
 			.join('+') 
 	}+`
-	console.log(line)
+	field.push(line)
 
-	var j = 0
 	var l = 65
 	var w = fieldArray.width
-	for(var i=0; i < fieldArray.width; i++){
-		//var row = getRow(fieldArray, i)
+	for(var i=0; i < w; i++){
 		var row = 
 			fieldArray.cells
 				.slice(i*w, i*w + w)
-		console.log(` ${ String.fromCharCode(l++) } | ${ row.join(' | ') } |`)		
-		j += fieldArray.width
+		field.push(` ${ String.fromCharCode(l++) } | ${ row.join(' | ') } |`)		
 		row = []
 
-		console.log(line)
+		field.push(line)
 	}
 
 	return field
@@ -237,9 +214,37 @@ function field2str(fieldArray){
 }
 
 var fieldArray = readField2(field)
-//drawField(fieldArray)
-console.log(field2str(fieldArray))
+//console.log(field2str(fieldArray))
+console.log(fieldArray)
 
+function possibleMoves(f){
+    var wsteps = 0 
+    var bsteps = 0
+    for(var i=0; i < f.cells.length; i++){
+        if(f.cells[i] == 'W'){
+            if(f.cells[(i-1)+f.width] == ' ' 
+                      && i%f.width != 0){
+                 wsteps++ 
+            }
+			if(f.cells[(i+1)+f.width] == ' '
+					&& (i+1)%f.width != 0){
+				wsteps++
+			}
+        }
+		 if(f.cells[i] == 'B'){
+            if(f.cells[(i-1)-f.width] == ' ' 
+                      && i%f.width != 0){
+                 bsteps++ 
+            }
+			if(f.cells[(i+1)-f.width] == ' '
+					&& (i+1)%f.width != 0){
+				bsteps++
+			}
+        }
+    }
+	console.log(wsteps, bsteps)
+}
+possibleMoves(fieldArray)
 
 // XXX using the above structure:
 // 		- get a list of possible moves (incl. attacks)
