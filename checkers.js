@@ -217,6 +217,26 @@ var fieldArray = readField2(field)
 //console.log(field2str(fieldArray))
 console.log(fieldArray)
 
+//
+//	listMoves(<cell>, <orientation>)
+//	listMoves(<cell>, <orientation>, <restricted>)
+//		-> undefined
+//		-> <moves>
+//
+//	<orientation> ::= 'n' | 's'
+//
+//	<moves> ::=
+//		[ 
+//			[ <cell>, .. ],
+//			..
+//		]
+//
+// XXX also need fully unrestricted moves for queens...
+function listMoves(cell, orientation, restricted=true){
+	// XXX
+}
+
+
 function possibleMoves(f){
 	var wsteps = 0 
 	var bsteps = 0
