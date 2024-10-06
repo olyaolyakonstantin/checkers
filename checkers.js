@@ -213,9 +213,19 @@ function field2str(fieldArray){
 		.join('\n')
 }
 
-var fieldArray = readField2(field)
-//console.log(field2str(fieldArray))
-console.log(fieldArray)
+//var fieldArray = readField2(field)
+var fieldArray = {
+	width: 8,
+	cells: []
+}
+for(var i=0; i < 64; i++){
+	fieldArray.cells[i] = ' '	
+} 
+fieldArray.cells[12] = 'W'
+fieldArray.cells[28] = 'W'
+fieldArray.cells[44] = 'W'
+fieldArray.cells[53] = 'B'
+
 
 //
 //	listMoves(<cell>, <orientation>)
@@ -232,12 +242,70 @@ console.log(fieldArray)
 //		]
 //
 // XXX also need fully unrestricted moves for queens...
-function listMoves(cell, orientation, restricted=true){
-	// XXX
+
+
+console.log(field2str(fieldArray))
+
+function checkAttacks(f, i, step, moves){
+	// left side 
+	if(i%f.width != 0){
+		if(f.cells[i-1+step] != ' '
+				&& f.cells[i-1+step] != f.cells[i]
+						&& f.cells[i-2+step*2] == ' '){
+				moves.push(i-2+step*2)
+				checkAttacks(f, moves[moves.length-1], step, moves)
+		}	
+	}
+	// right side
+	if((i+1)%f.width != 0){
+		if(f.cells[i+1+step] != ' '
+				&& f.cells[i+1+step] != f.cells[i]
+						&& f.cells[i+(1+step)*2] == ' '){
+				moves.push(i+(1+step)*2)
+				checkAttacks(f, moves[moves.length-1], step, moves)
+		}	
+	}
+	return moves
 }
 
+function listMoves(f, i, restricted=true){
 
-function possibleMoves(f){
+	if(f.cells[i] == ' '){
+		return 
+	}
+	var moves = []	
+	var step = f.width 
+	if(f.cells[i] == 'B'){
+		step *= -1
+	}
+	// to left 
+	if(i%f.width != 0){
+		if(f.cells[i-1+step] == ' '){
+			moves.push(i-1+step)
+		}
+	}
+	// to right
+	if((i+1)%f.width != 0){
+		if(f.cells[i+1+step] == ' '){
+			moves.push(i+1+step)
+		}
+	}
+
+	checkAttacks(f, i, step, moves)
+
+	return moves
+}
+
+console.log(listMoves(fieldArray, 53))
+/*
+for(var i=0; i < fieldArray.cells.length; i++){
+	if(fieldArray.cells[i] != ' ') console.log(listMoves(fieldArray, i))
+} */
+
+function possibleMoves(f, cell){
+
+}
+	/*
 	var wsteps = 0 
 	var bsteps = 0
 	for(var i=0; i < f.cells.length; i++){
@@ -260,24 +328,35 @@ function possibleMoves(f){
 					wsteps++
 				}
 			}
-		}	 
-		if(f.cells[i] == 'B'){
-			if(f.cells[(i-1)-f.width] == ' ' 
-					&& i%f.width != 0){
-				bsteps++ 
-			}
-			if(f.cells[(i+1)-f.width] == ' '
-					&& (i+1)%f.width != 0){
-				bsteps++
-			}
 		}
+		if(f.cells[i] == 'B'){
+			if(i%f.width != 0){
+				if(f.cells[i-1-f.width] == ' '){
+					bsteps++
+				}
+				if(f.cells[i-1-f.width] == 'W'
+						&& f.cells[i-2-f.width*2] == ' '){
+					bsteps++
+				}
+			}
+			if((i+1)%f.width != 0){
+				if(f.cells[i+1-f.width] == ' '){
+					bsteps++
+				}
+				if(f.cells[i+1-f.width] == 'W'
+						&& f.cells[i+2-f.width*2] == ' '){
+					bsteps++
+				}
+			}
+		} 
 	}
 	return {
 		W: wsteps, 
 		B: bsteps,
 	}
+	
 }
-console.log(possibleMoves(fieldArray))
+*/
 
 // XXX using the above structure:
 // 		- get a list of possible moves (incl. attacks)
